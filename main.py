@@ -32,19 +32,22 @@ async def on_message(message):
 	argslist = args.split(" ")
 	if(argslist[0] == "attack"):
 		await message.channel.send("hoogagagagagagagagagaga")
-	if(argslist[0] == "blind"):
-		if(message.mentions[0].id == bot_owner_id or message.mentions[0] == self.user):
-			await message.channel.send("i act in self preservation; i cannot attack my owner or myself")
+	elif(argslist[0] == "blind"):
+		if(message.mentions[0].id == bot_owner_id or message.mentions[0] == client.user):
+			await message.channel.send("hooga (i act in self preservation; i cannot attack my owner or myself)")
 			return
 		sandmanrole = message.guild.get_role(blind_role_id) # set blind_role_id in settings.py
-		await message.channel.send("blinding {0}".format((message.mentions[0]).display_name))
+		await message.channel.send("hooga (blinding {0})".format((message.mentions[0]).display_name))
 		await message.mentions[0].add_roles(sandmanrole,reason="blinded by sandman")
 		sleep(10)
 		await message.mentions[0].remove_roles(sandmanrole,reason="unblinded by sandman")
-		await message.channel.send("{0} has recovered from his blindness".format((message.mentions[0]).display_name))
-	if(argslist[0] == "retreat"):
-		await client.change_presence(status=discord.Status.idle)
-	if(argslist[0] == "unretreat"):
-		await client.change_presence(status=discord.Status.online)
+		await message.channel.send("hooga ({0} has recovered from his blindness)".format((message.mentions[0]).display_name))
+	elif(argslist[0] == "status"):
+		if(argslist[1] in ["online","idle","dnd","offline"]):
+			await client.change_presence(status=discord.Status[argslist[1]])
+		else:
+			await message.channel.send("hooga (pick a valid status)")
+	elif(argslist[0] == "gif"):
+		await message.channel.send("hooga (hehe funny https://tenor.com/beIqe.gif )")
 
 client.run(token)
