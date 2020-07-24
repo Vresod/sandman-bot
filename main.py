@@ -8,7 +8,10 @@ from settings import *
 with open("tokenfile", "r") as tokenfile:
 	token=tokenfile.read()
 
-client = discord.Client()
+istatus = discord.Status.online
+cstatus = discord.Game(name="with your dreams")
+
+client = discord.Client(status=istatus,activity=cstatus)
 
 @client.event
 async def on_ready():
@@ -36,11 +39,11 @@ async def on_message(message):
 		if(message.mentions[0].id == bot_owner_id or message.mentions[0] == client.user):
 			await message.channel.send("hooga (i act in self preservation; i cannot attack my owner or myself)")
 			return
-		sandmanrole = message.guild.get_role(blind_role_id) # set blind_role_id in settings.py
+		blindrole = message.guild.get_role(blind_role_id) # set blind_role_id in settings.py
 		await message.channel.send("hooga (blinding {0})".format((message.mentions[0]).display_name))
-		await message.mentions[0].add_roles(sandmanrole,reason="blinded by sandman")
+		await message.mentions[0].add_roles(blindrole,reason="blinded by sandman")
 		sleep(10)
-		await message.mentions[0].remove_roles(sandmanrole,reason="unblinded by sandman")
+		await message.mentions[0].remove_roles(blindrole,reason="unblinded by sandman")
 		await message.channel.send("hooga ({0} has recovered from his blindness)".format((message.mentions[0]).display_name))
 	elif(argslist[0] == "status"):
 		if(argslist[1] in ["online","idle","dnd","offline"]):
@@ -49,5 +52,16 @@ async def on_message(message):
 			await message.channel.send("hooga (pick a valid status)")
 	elif(argslist[0] == "gif"):
 		await message.channel.send("hooga (hehe funny https://tenor.com/beIqe.gif )")
+	elif(argslist[0] == "knockout"):
+		if(message.mentions[0].id == bot_owner_id or message.mentions[0] == client.user):
+			await message.channel.send("hooga (i act in self preservation; i cannot attack my owner or myself)")
+			return
+		await message.channel.send("hooga (knocking out {0})".format((message.mentions[0]).display_name))
+		dreamrole = message.guild.get_role(dream_role_id) # set dream_role_id in settings.py
+		await message.mentions[0].add_roles(dreamrole,reason="knocked out by sandman")
+		sleep(50)
+		await message.mentions[0].remove_roles(dreamrole,reason="knocked out by sandman")
+		await message.channel.send("hooga ({0} has woken up!)".format((message.mentions[0]).display_name))
+		await client.get_channel(dream_channel_id).send("{0} has woken up!".format((message.mentions[0]).display_name))
 
 client.run(token)
