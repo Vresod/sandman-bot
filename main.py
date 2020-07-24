@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from time import sleep
+from asyncio import sleep
 import discord
 # having a seperate python file for bot settings is probably not the best way to do this
 # but it makes things simpler on the main file. just import the file.
@@ -40,11 +40,11 @@ async def on_message(message):
 			await message.channel.send("hooga (i act in self preservation; i cannot attack my owner or myself)")
 			return
 		blindrole = message.guild.get_role(blind_role_id) # set blind_role_id in settings.py
-		await message.channel.send("hooga (blinding {0})".format((message.mentions[0]).display_name))
+		await client.get_channel(general_channel_id).send("hooga (blinding {0})".format((message.mentions[0]).display_name))
 		await message.mentions[0].add_roles(blindrole,reason="blinded by sandman")
-		sleep(10)
+		await sleep(10)
 		await message.mentions[0].remove_roles(blindrole,reason="unblinded by sandman")
-		await message.channel.send("hooga ({0} has recovered from his blindness)".format((message.mentions[0]).display_name))
+		await client.get_channel(general_channel_id).send("hooga ({0} has recovered from his blindness)".format((message.mentions[0]).display_name))
 	elif(argslist[0] == "status"):
 		if(argslist[1] in ["online","idle","dnd","offline"]):
 			await client.change_presence(status=discord.Status[argslist[1]])
@@ -56,12 +56,12 @@ async def on_message(message):
 		if(message.mentions[0].id == bot_owner_id or message.mentions[0] == client.user):
 			await message.channel.send("hooga (i act in self preservation; i cannot attack my owner or myself)")
 			return
-		await message.channel.send("hooga (knocking out {0})".format((message.mentions[0]).display_name))
+		await client.get_channel(general_channel_id).send("hooga (knocking out {0})".format((message.mentions[0]).display_name))
 		dreamrole = message.guild.get_role(dream_role_id) # set dream_role_id in settings.py
 		await message.mentions[0].add_roles(dreamrole,reason="knocked out by sandman")
-		sleep(50)
+		await sleep(50)
 		await message.mentions[0].remove_roles(dreamrole,reason="knocked out by sandman")
-		await message.channel.send("hooga ({0} has woken up!)".format((message.mentions[0]).display_name))
+		await client.get_channel(general_channel_id).send("hooga ({0} has woken up!)".format((message.mentions[0]).display_name))
 		await client.get_channel(dream_channel_id).send("{0} has woken up!".format((message.mentions[0]).display_name))
 
 client.run(token)

@@ -1,4 +1,19 @@
+# IDs required for bot to work correctly
 bot_owner_id = 431978032094380043
 blind_role_id = 713246200555372544
 dream_role_id = 713238594785116192
+general_channel_id = 712716066618605591
 dream_channel_id = 713239861074722907
+
+# users paired with dream channels.
+# not currently used
+dream_channels = {
+	# tate
+	643638566655754241: 713239079684145235,
+	# vresod
+	431978032094380043: 713239861074722907,
+	# gamererr
+	312292633978339329: 713240259965485176,
+	# chickenwinna
+	347198887309869078: 725840478259380318
+}

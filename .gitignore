@@ -1,3 +1,3 @@
-tokenfile
-.vscode/*
+tokenfile*
+.vscode
 __pycache__
