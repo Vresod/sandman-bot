@@ -2,6 +2,7 @@
 
 from asyncio import sleep
 import discord
+import extras
 # having a seperate python file for bot settings is probably not the best way to do this
 # but it makes things simpler on the main file. just import the file.
 from settings import *
@@ -22,6 +23,18 @@ message_counter = 0
 async def on_message(message):
 	if message.author.bot:
 		return
+	if(message.author.id == bot_owner_id and message.channel == message.author.dm_channel):
+		images = await extras.attachments_to_files(message.attachments)
+		bot_owner_as_member = client.get_channel(general_channel_id).guild.get_member(bot_owner_id)
+		message_send_channel = ""
+		if not bot_owner_as_member.guild.get_role(dead_role_id) in bot_owner_as_member.roles:
+			message_send_channel = client.get_channel(general_channel_id)
+		else:
+			message_send_channel = client.get_channel(dead_channel_id)
+		print(f'repeating {message.content}')
+		print(message_send_channel)
+		await message_send_channel.send(message.content,files=images)
+		return
 	global message_counter
 	message_counter += 1
 	if message_counter == 25:
@@ -29,9 +42,9 @@ async def on_message(message):
 		message_counter = 0
 	if not (message.author.id == bot_owner_id): # set bot_owner_id in settings.py
 		return
-	if not message.content.startswith("sandman"):
+	if not message.content.startswith(prefix):
 		return
-	args = message.content.replace("sandman ","")
+	args = message.content.replace(f"{prefix} ","")
 	argslist = args.split(" ")
 	dreamrole = message.guild.get_role(dream_role_id) # set dream_role_id in settings.py
 	blindrole = message.guild.get_role(blind_role_id) # set blind_role_id in settings.py
@@ -59,9 +72,7 @@ async def on_message(message):
 			return
 		await client.get_channel(general_channel_id).send("hooga (knocking out {0})".format((message.mentions[0]).display_name))
 		await message.mentions[0].add_roles(dreamrole,reason="knocked out by sandman")
-		await sleep(10)
-		print(message.mentions[0].roles)
-		print(dreamrole)
+		await sleep(90)
 		if(dreamrole in message.mentions[0].roles):
 			await message.mentions[0].remove_roles(dreamrole,reason="woken up from sandman knockout")
 			await client.get_channel(general_channel_id).send("hooga ({0} has woken up!)".format((message.mentions[0]).display_name))
@@ -70,6 +81,11 @@ async def on_message(message):
 		await message.mentions[0].remove_roles(dreamrole,reason="released from sandman knockout")
 		await client.get_channel(general_channel_id).send("hooga ({0} has been released.)".format((message.mentions[0]).display_name))
 		await client.get_channel(dream_channel_id).send("{0} has been released.".format((message.mentions[0]).display_name))
-
+	elif(argslist[0] == "echo"):
+		images = await extras.attachments_to_files(message.attachments)
+		await message.delete()
+		await message.channel.send(message.content[len(prefix) + 6:],files=images) # adding 5 for length of " echo"
+		print(f'repeating {message.content[len(prefix) + 6:]}') # read above line's comment
+        
 
 client.run(token)
