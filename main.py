@@ -32,7 +32,6 @@ async def on_message(message):
 		else:
 			message_send_channel = client.get_channel(dead_channel_id)
 		print(f'repeating {message.content}')
-		print(message_send_channel)
 		await message_send_channel.send(message.content,files=images)
 		return
 	global message_counter
@@ -40,12 +39,14 @@ async def on_message(message):
 	if message_counter == 25:
 		await message.channel.send("hooga")
 		message_counter = 0
+	args = message.content.replace(f"{prefix} ","")
+	argslist = args.split(" ")
+	if(argslist[0] == "repo"):
+		await message.channel.send(f"my source code is available at {sandman_repo}")
 	if not (message.author.id == bot_owner_id): # set bot_owner_id in settings.py
 		return
 	if not message.content.startswith(prefix):
 		return
-	args = message.content.replace(f"{prefix} ","")
-	argslist = args.split(" ")
 	dreamrole = message.guild.get_role(dream_role_id) # set dream_role_id in settings.py
 	blindrole = message.guild.get_role(blind_role_id) # set blind_role_id in settings.py
 	if(argslist[0] == "attack"):

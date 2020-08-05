@@ -1,6 +1,7 @@
 prefix = "sandman"
 
 # IDs required for bot to work correctly
+sandman_repo = "https://github.com/Vresod/sandman-bot"
 bot_owner_id = 431978032094380043
 blind_role_id = 713246200555372544
 dream_role_id = 713238594785116192
