@@ -67,7 +67,7 @@ async def on_message(message):
 			await message.channel.send("hooga (pick a valid status)")
 	elif(argslist[0] == "gif"):
 		await message.channel.send("hooga (hehe funny https://tenor.com/beIqe.gif )")
-	elif(argslist[0] == "knockout"):
+	elif(argslist[0] == "enter"):
 		if(message.mentions[0].id == bot_owner_id or message.mentions[0] == client.user):
 			await message.channel.send("hooga (i act in self preservation; i cannot attack my owner or myself)")
 			return
@@ -75,11 +75,11 @@ async def on_message(message):
 		await message.mentions[0].add_roles(dreamrole,reason="knocked out by sandman")
 		await sleep(90)
 		if(dreamrole in message.mentions[0].roles):
-			await message.mentions[0].remove_roles(dreamrole,reason="woken up from sandman knockout")
+			await message.mentions[0].remove_roles(dreamrole,reason="woken up from sandman enter")
 			await client.get_channel(general_channel_id).send("hooga ({0} has woken up!)".format((message.mentions[0]).display_name))
 			await client.get_channel(dream_channel_id).send("{0} has woken up!".format((message.mentions[0]).display_name))
 	elif(argslist[0] == "release"):
-		await message.mentions[0].remove_roles(dreamrole,reason="released from sandman knockout")
+		await message.mentions[0].remove_roles(dreamrole,reason="released from sandman enter")
 		await client.get_channel(general_channel_id).send("hooga ({0} has been released.)".format((message.mentions[0]).display_name))
 		await client.get_channel(dream_channel_id).send("{0} has been released.".format((message.mentions[0]).display_name))
 	elif(argslist[0] == "echo"):
