@@ -4,10 +4,10 @@ prefix = "sandman"
 sandman_repo = "https://github.com/Vresod/sandman-bot"
 bot_owner_id = 431978032094380043
 blind_role_id = 713246200555372544
-dream_role_id = 713238594785116192
+dream_role_id = 741552665892356147
 dead_role_id = 714535509279637525
 general_channel_id = 712716066618605591 # required for direct message to echo as well as other things i think
-dream_channel_id = 713239861074722907
+dream_channel_id = 741553066225958913
 dead_channel_id = 737149672728297552
 
 # users paired with dream roles.
